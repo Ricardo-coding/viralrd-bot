@@ -314,12 +314,14 @@ async function iniciarBot() {
       const telefono = (m.key.senderPn || jid).split("@")[0];
       const fromMe = m.key.fromMe;
 
-      const texto =
+     const texto =
         m.message.conversation ||
         m.message.extendedTextMessage?.text ||
         "";
 
       if (!texto) return;
+
+      console.log(`🔍 jid=${jid} senderPn=${m.key.senderPn} telefono=${telefono} fromMe=${fromMe} texto="${texto}"`);
 
       // Si el mensaje es tuyo, solo procesamos comandos /pausar /activar
       if (fromMe) {
