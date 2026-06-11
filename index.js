@@ -273,18 +273,22 @@ async function iniciarBot() {
   sock.ev.on("connection.update", (update) => {
     const { connection, lastDisconnect, qr } = update;
 
-    if (qr) {
-      ultimoQR = qr;
-      estadoConexion = "QR generado, ve a /qr para escanear";
-      console.log("📱 Nuevo QR generado — entra a /qr para escanearlo");
-    }
+   
+if (qr) {
+  ultimoQR = qr;
+  estadoConexion = "QR generado, ve a /qr para escanear";
+  console.log("📱 Nuevo QR generado a las", new Date().toLocaleTimeString(), "— entra a /qr para escanearlo");
+}
 
     if (connection === "close") {
-      const motivo = lastDisconnect?.error?.output?.statusCode;
-      const debeReconectar = motivo !== DisconnectReason.loggedOut;
-      estadoConexion = "Conexión cerrada, reconectando...";
-      console.log("Conexión cerrada. Reconectando:", debeReconectar);
-      if (debeReconectar) iniciarBot();
+  const motivo = lastDisconnect?.error?.output?.statusCode;
+  const debeReconectar = motivo !== DisconnectReason.loggedOut;
+  estadoConexion = "Conexión cerrada, reconectando en 15 segundos...";
+  console.log("Conexión cerrada. Motivo:", motivo, "— Reconectando:", debeReconectar);
+  if (debeReconectar) {
+    setTimeout(() => iniciarBot(), 15000); // ⬅️ espera 15 seg antes de reconectar
+  }
+}
     } else if (connection === "open") {
       ultimoQR = null;
       estadoConexion = "✅ Conectado a WhatsApp";
