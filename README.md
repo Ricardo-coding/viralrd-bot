@@ -29,7 +29,7 @@ En Settings → Environment Variables agrega:
 - Webhook URL = `https://tu-proyecto.vercel.app/webhook`
 
 ### 5. Escanear QR en Z-API
-- Conecta tu WhatsApp escaneando el QR
+- Conecta tu WhatsApp escaneando el QR.
 - ¡Listo!
 
 ---
