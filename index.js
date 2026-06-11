@@ -300,15 +300,18 @@ async function iniciarBot() {
 
   sock.ev.on("messages.upsert", async ({ messages }) => {
     try {
-      const m = messages[0];
-      console.log("🔍 DEBUG mensaje crudo:", JSON.stringify(m, null, 2));
+     const m = messages[0];
       if (!m.message) return;
+      if (m.message.protocolMessage) return; // ignorar mensajes de sincronización
+      if (m.messageStubType) return; // ignorar notificaciones del sistema
 
       const jid = m.key.remoteJid;
       if (jid.endsWith("@g.us")) return; // ignorar grupos
       if (jid === "status@broadcast") return;
 
-      const telefono = jid.split("@")[0];
+      // WhatsApp ahora puede mandar el remoteJid como "@lid"
+      // En ese caso, el número real viene en senderPn
+      const telefono = (m.key.senderPn || jid).split("@")[0];
       const fromMe = m.key.fromMe;
 
       const texto =
