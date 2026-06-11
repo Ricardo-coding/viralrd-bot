@@ -301,6 +301,7 @@ async function iniciarBot() {
   sock.ev.on("messages.upsert", async ({ messages }) => {
     try {
       const m = messages[0];
+      console.log("🔍 DEBUG mensaje crudo:", JSON.stringify(m, null, 2));
       if (!m.message) return;
 
       const jid = m.key.remoteJid;
